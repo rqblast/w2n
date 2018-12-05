@@ -90,7 +90,7 @@ return value: integer
 def number_formation(number_words):
     numbers = []
     for number_word in number_words:
-        numbers.append(american_number_system[number_word])
+        numbers.append(american_number_system.get(number_word) or int(number_word))
     if len(numbers) == 4:
         return (numbers[0] * numbers[1]) + numbers[2] + numbers[3]
     elif len(numbers) == 3:
@@ -114,10 +114,10 @@ output: double
 def get_decimal_sum(decimal_digit_words):
     decimal_number_str = []
     for dec_word in decimal_digit_words:
-        if(dec_word not in decimal_words):
+        if dec_word not in decimal_words and not dec_word.isdigit():
             return 0
         else:
-            decimal_number_str.append(american_number_system[dec_word])
+            decimal_number_str.append(american_number_system.get(dec_word) or int(dec_word))
     final_decimal_string = '0.' + ''.join(map(str,decimal_number_str))
     return float(final_decimal_string)
 
@@ -146,7 +146,7 @@ def word_to_num(number_sentence):
 
     # removing and, & etc.
     for word in split_words:
-        if word in american_number_system:
+        if word in american_number_system or word.isdigit():
             clean_numbers.append(word)
 
     # Error message if the user enters invalid input!
@@ -174,7 +174,7 @@ def word_to_num(number_sentence):
     if len(clean_numbers) > 0:
         # hack for now, better way TODO
         if len(clean_numbers) == 1:
-                total_sum += american_number_system[clean_numbers[0]]
+                total_sum += american_number_system.get(clean_numbers[0]) or int(clean_numbers[0])
 
         else:
             if billion_index > -1:
